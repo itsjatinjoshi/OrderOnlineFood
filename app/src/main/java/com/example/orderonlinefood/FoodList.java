@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -65,7 +66,9 @@ public class FoodList extends AppCompatActivity {
                 foodViewHolder.setItemClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongPress) {
-                        Toast.makeText(FoodList.this, "FooD Name : "+foodName.getName(), Toast.LENGTH_SHORT).show();
+                        Intent foodList = new Intent(FoodList.this, FoodDetails.class);
+                        foodList.putExtra("FoodId", adapter.getRef(position).getKey());
+                        startActivity(foodList);
                     }
                 });
 
