@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "843395777887",
+    "firebase_url": "https://orderfoodsonline-61670.firebaseio.com",
+    "project_id": "orderfoodsonline-61670",
+    "storage_bucket": "orderfoodsonline-61670.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:843395777887:android:8d34001c1eb3423449a2ea",
+        "android_client_info": {
+          "package_name": "com.example.orderonlinefood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "843395777887-8vkt27r7m6amq3ho8j1c0t54qn648jbm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.orderonlinefood",
+            "certificate_hash": "04d1db54c2efd56720e1b58cddf79fc6ee84336e"
+          }
+        },
+        {
+          "client_id": "843395777887-lrl0pb090uvdfh2ih1v4jr8qkr4dq6cj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuV7i3HtnSCcc4mkCFN9j3zIDMRzm8Ros"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "843395777887-lrl0pb090uvdfh2ih1v4jr8qkr4dq6cj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
