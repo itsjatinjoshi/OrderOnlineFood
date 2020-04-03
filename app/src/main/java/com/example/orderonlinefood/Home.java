@@ -1,5 +1,6 @@
 package com.example.orderonlinefood;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -43,7 +44,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     RecyclerView recycler_menu;
     RecyclerView.LayoutManager layoutManager;
     public int OpenDraw, closeDraw;
-
+    FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +95,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     private void loadMenu() {
 
-        FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category) {
+         adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category) {
             @Override
             protected void populateViewHolder(MenuViewHolder menuViewHolder, Category category, int i) {
 
@@ -104,7 +105,9 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 menuViewHolder.setItemClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongPress) {
-                        Toast.makeText(Home.this, "Name" + clickItem.getName(), Toast.LENGTH_SHORT).show();
+                       Intent foodList = new Intent(Home.this, FoodList.class);
+                       foodList.putExtra("Category", adapter.getRef(position).getKey());
+                       startActivity(foodList);
                     }
                 });
 
