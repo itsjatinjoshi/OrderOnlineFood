@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
@@ -44,6 +45,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     RecyclerView recycler_menu;
     RecyclerView.LayoutManager layoutManager;
     public int OpenDraw, closeDraw;
+    FloatingActionButton fab;
     FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +58,18 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         database = FirebaseDatabase.getInstance();
         category = database.getReference("Category");
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent cartIntent = new Intent(Home.this, Cart.class);
+                        startActivity(cartIntent);
+                    }
+                });
+
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -100,7 +108,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             protected void populateViewHolder(MenuViewHolder menuViewHolder, Category category, int i) {
 
                 menuViewHolder.menu_name.setText(category.getName());
-                Picasso.get().load(category.getImage()).into(menuViewHolder.menu_image);
+              //  Picasso.get().load(category.getImage()).into(menuViewHolder.menu_image);
+                Picasso.get().load(category.getImage()).memoryPolicy(MemoryPolicy.NO_CACHE).fit().into(menuViewHolder.menu_image);
                 final Category clickItem = category;
                 menuViewHolder.setItemClickListener(new OnClickListener() {
                     @Override

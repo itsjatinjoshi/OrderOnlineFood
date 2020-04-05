@@ -15,6 +15,7 @@ import com.example.orderonlinefood.ViewHolder.FoodViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 public class FoodList extends AppCompatActivity {
@@ -60,7 +61,8 @@ public class FoodList extends AppCompatActivity {
             @Override
             protected void populateViewHolder(FoodViewHolder foodViewHolder, Food food, int i) {
                foodViewHolder.food_name.setText(food.getName());
-                Picasso.get().load(food.getImage()).into(foodViewHolder.food_image);
+             //   Picasso.get().load(food.getImage()).into(foodViewHolder.food_image);
+                Picasso.get().load(food.getImage()).memoryPolicy(MemoryPolicy.NO_CACHE).fit().into(foodViewHolder.food_image);
 
                 final Food foodName = food;
                 foodViewHolder.setItemClickListener(new OnClickListener() {
