@@ -75,11 +75,11 @@ public class Cart extends AppCompatActivity {
         alertDialog.setMessage("Enter your address: ");
 
         final EditText etAddress = new EditText(Cart.this);
+
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT
         );
-
         etAddress.setLayoutParams(lp);
         alertDialog.setView(etAddress);
         alertDialog.setIcon(R.drawable.cart);
@@ -87,18 +87,22 @@ public class Cart extends AppCompatActivity {
         alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Request request = new Request(
-                        Common.currentUser.getPhone(),
-                        Common.currentUser.getName(),
-                        etAddress.getText().toString(),
-                        total.getText().toString(),
-                        cart
-                );
-                //use system.currenttime as a Key
-                requests.child(String.valueOf(System.currentTimeMillis())).setValue(request);
-                new Database(getBaseContext()).cleanCart();
-                Toast.makeText(Cart.this, "Thank You, Order Place", Toast.LENGTH_SHORT).show();
-                finish();
+                if (etAddress.getText().toString().isEmpty()) {
+                    Toast.makeText(Cart.this, "Please enter address", Toast.LENGTH_SHORT).show();
+                } else {
+                    Request request = new Request(
+                            Common.currentUser.getPhone(),
+                            Common.currentUser.getName(),
+                            etAddress.getText().toString(),
+                            total.getText().toString(),
+                            cart
+                    );
+                    //  use system.current time as a Key
+                    requests.child(String.valueOf(System.currentTimeMillis())).setValue(request);
+                    new Database(getBaseContext()).cleanCart();
+                    Toast.makeText(Cart.this, "Thank You, Order Place", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
         });
 
@@ -109,8 +113,8 @@ public class Cart extends AppCompatActivity {
             }
         });
         alertDialog.show();
-    }
 
+    }
 
     private void loadListFood() {
 

@@ -1,7 +1,9 @@
 package com.example.orderonlinefood;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +28,7 @@ import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -47,6 +50,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     public int OpenDraw, closeDraw;
     FloatingActionButton fab;
     FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,14 +66,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent cartIntent = new Intent(Home.this, Cart.class);
-                        startActivity(cartIntent);
-                    }
-                });
-
+                Intent cartIntent = new Intent(Home.this, Cart.class);
+                startActivity(cartIntent);
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -86,7 +84,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.bringToFront();
         navigationView.setNavigationItemSelectedListener(this);
 
         View headView = navigationView.getHeaderView(0);
@@ -103,20 +102,20 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     private void loadMenu() {
 
-         adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category) {
+        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class, R.layout.menu_item, MenuViewHolder.class, category) {
             @Override
             protected void populateViewHolder(MenuViewHolder menuViewHolder, Category category, int i) {
 
                 menuViewHolder.menu_name.setText(category.getName());
-              //  Picasso.get().load(category.getImage()).into(menuViewHolder.menu_image);
+                //  Picasso.get().load(category.getImage()).into(menuViewHolder.menu_image);
                 Picasso.get().load(category.getImage()).memoryPolicy(MemoryPolicy.NO_CACHE).fit().into(menuViewHolder.menu_image);
                 final Category clickItem = category;
                 menuViewHolder.setItemClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongPress) {
-                       Intent foodList = new Intent(Home.this, FoodList.class);
-                       foodList.putExtra("Category", adapter.getRef(position).getKey());
-                       startActivity(foodList);
+                        Intent foodList = new Intent(Home.this, FoodList.class);
+                        foodList.putExtra("Category", adapter.getRef(position).getKey());
+                        startActivity(foodList);
                     }
                 });
 
@@ -141,19 +140,47 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
+    public boolean onNavigationItemSelected(MenuItem item) {
+        Log.d("HOME_LOG", "NAVIGATION MENU");
         int id = item.getItemId();
         if (id == R.id.nav_home) {
 
+            //todo: implement later
         } else if (id == R.id.nav_cart) {
+            System.out.println("ID for Cart : " + id);
+            Intent viewCart = new Intent(Home.this, Cart.class);
+            startActivity(viewCart);
+            Log.d("HOME_LOG", "HOME CART");
 
         } else if (id == R.id.nav_order) {
+            System.out.println("ID for Order : " + id);
+            Intent orderStatus = new Intent(Home.this, OrderStatus.class);
+            startActivity(orderStatus);
+            Log.d("HOME_LOG", "HOME ORDER");
 
         } else if (id == R.id.nav_logout) {
-
+            System.out.println("ID for Logout : " + id);
+            final AlertDialog.Builder alertDialog = new AlertDialog.Builder(Home.this);
+            alertDialog.setTitle("LOGOUT !!!");
+            alertDialog.setCancelable(true);
+            alertDialog.setMessage("Are You Sure want to Logout");
+            alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent signInIntent = new Intent(Home.this, SignIn.class);
+                    signInIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(signInIntent);
+                }
+            });
+            alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            alertDialog.show();
+            Log.d("HOME_LOG", "HOME LOGOUT");
         }
 
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);

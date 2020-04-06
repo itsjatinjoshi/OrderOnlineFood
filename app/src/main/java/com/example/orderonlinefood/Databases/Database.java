@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database extends SQLiteAssetHelper {
-
+    public static final String LOG_TAG = Database.class.getSimpleName();
     private static final String DATABASE_NAME = "OrderOnline.db";
     private static final int DB_VAR = 1;
 
@@ -25,7 +25,7 @@ public class Database extends SQLiteAssetHelper {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 
-        String[] sqlSelect = {"ProductId", "ProductName", "Quantity", "Price", "Discount"};
+        String[] sqlSelect = {"ProductName", "ProductId", "Quantity", "Price", "Discount"};
         String sqlTable = "OrderDetail";
 
         queryBuilder.setTables(sqlTable);
@@ -34,17 +34,16 @@ public class Database extends SQLiteAssetHelper {
         final List<Order> result = new ArrayList<>();
 
         if (c.moveToFirst()) {
-
             do {
+                Log.d(LOG_TAG, "Point 3");
                 result.add(new Order(c.getString(c.getColumnIndex("ProductId")),
                         c.getString(c.getColumnIndex("ProductName")),
                         c.getString(c.getColumnIndex("Quantity")),
                         c.getString(c.getColumnIndex("Price")),
                         c.getString(c.getColumnIndex("Discount"))
+
                 ));
-            }
-            while (c.moveToLast());
-            c.close();
+            }  while (c.moveToNext());
         }
 
 

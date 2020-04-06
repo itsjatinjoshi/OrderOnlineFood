@@ -14,9 +14,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
     }
-    dexOptions {
-        javaMaxHeapSize "4g"
-    }
 
     buildTypes {
         release {
